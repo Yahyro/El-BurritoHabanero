@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Burrito Habanero - ¡Picante y Delicioso!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        body {
+            background-color: #fff9f5;
+            color: #333;
+        }
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #e74c3c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #c0392b;
+        }
+        header {
+            background-color: #fff9f5;
+            color: #e74c3c;
+            padding: 20px 0;
+            text-align: center;
+        }
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+        }
+        nav {
+            background-color: #c0392b;
+            padding: 10px 0;
+            margin-top: 10px;
+        }
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+        }
+        nav ul li {
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('https://mojo.generalmills.com/api/public/content/eO8BlRFn10edqnyt8dd-Ng_webp_base.webp?v=84ce7d74&t=191ddcab8d1c415fa10fa00a14351227');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 80px 0;
+        }
+        .hero h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        .menu-section {
+            padding: 40px 0;
+            background-color: white;
+        }
+        .menu-section h2 {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            color: #e74c3c;
+        }
+        .menu-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .menu-item {
+            background-color: #fff9f5;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        .menu-item img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        .menu-item:hover img {
+            transform: scale(1.05);
+        }
+        .menu-item h4 {
+            padding: 10px 15px 0;
+            font-size: 1.2rem;
+            color: #333;
+        }
+        .menu-item p {
+            padding: 0 15px;
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        .price {
+            padding: 0 15px;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 15px;
+        }
+        .add-to-cart {
+            display: block;
+            width: calc(100% - 30px);
+            margin: 0 15px 15px;
+            padding: 8px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .add-to-cart:hover {
+            background-color: #e74c3c;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 30px;
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .social-links a {
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        /* Carrito de compras */
+        .cart-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #e74c3c;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            transition: transform 0.3s;
+        }
+        .cart-button:hover {
+            transform: scale(1.1);
+        }
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #333;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 350px;
+            height: 100%;
+            background-color: white;
+            box-shadow: -3px 0 10px rgba(0,0,0,0.1);
+            z-index: 101;
+            transition: right 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        .cart-sidebar.active {
+            right: 0;
+        }
+        .cart-header {
+            padding: 15px;
+            background-color: #e74c3c;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .close-cart {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .cart-item-info {
+            flex: 1;
+        }
+        .cart-item-name {
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        .cart-item-price {
+            color: #e74c3c;
+            font-size: 0.9rem;
+        }
+        .cart-item-remove {
+            background: none;
+            border: none;
+            color: #e74c3c;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .cart-total {
+            padding: 15px;
+            border-top: 1px solid #eee;
+            text-align: right;
+            font-weight: bold;
+        }
+        .checkout-btn {
+            margin: 15px;
+        }
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 99;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s;
+        }
+        .cart-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        @media (max-width: 768px) {
+            .menu-items {
+                grid-template-columns: 1fr;
+            }
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            nav ul li {
+                margin: 5px 0;
+            }
+            .cart-sidebar {
+                width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <div class="container">
+        <div class="logo-container">
+            <!-- Imagen con tamaño modificado directamente en HTML -->
+            <img src="https://scontent.ftam2-1.fna.fbcdn.net/v/t39.30808-6/470188179_919298303721983_3144778276200036114_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeFkCP6N2JxzHRlQF9cCM1lkV3ISnoCHiPJXchKegIeI8r5nmRXLRF2Z6Dr1lFVZyfde5b2O7phkzmurtYJ1WpSb&_nc_ohc=J5Ag9NFAhqoQ7kNvwFjJWjw&_nc_oc=AdkIPBpyumiD4jVNDaWbV2AWCI6HkXpqvqRf7jkbgnFmLu4GnWFJGH9op7x68U2FzcjYOnpQkIDUzYgNo0LX7pOD&_nc_zt=23&_nc_ht=scontent.ftam2-1.fna&_nc_gid=ReXRzAQ08x8EPw8bGB-rwg&oh=00_AfJgio2_Vt2iieM7F4OnEkUPgS_AkduCGy-Mhym8ep6qyQ&oe=682DE6FE" alt="El Burrito Habanero" width="auto" height="80">
+            
+        </div>
+</header>
+    <header>
+        <div class="container">
+            <h1>El Burrito Habanero</h1>
+            <p>¡Sabor que pica y encanta!</p>
+
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#menu">Menú</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="inicio" class="hero">
+        <div class="container">
+            <h2>Los burritos más picantes de la ciudad</h2>
+            <p>Hechos con ingredientes frescos y nuestro famoso chile habanero</p>
+            <a href="#menu" class="btn">Ver Menú</a>
+        </div>
+    </section>
+
+    <section id="menu" class="menu-section">
+        <div class="container">
+            <h2>Nuestros Burritos</h2>
+            <div class="menu-items">
+                <div class="menu-item">
+                    <img src="https://scontent.ftam2-1.fna.fbcdn.net/v/t39.30808-6/484074595_981466670838479_1891096392824019859_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeFcLpq8gfJzCRePs3zlrFL477vuNXAPks7vu-41cA-SzjQhk4iXgg8B4yFGSyQ_Uwj21F-Pm17CNEVdMzVJR9c4&_nc_ohc=E8L9hz6-vpYQ7kNvwFo5zod&_nc_oc=AdlWnVqs6LHSc-6iTBIP72B3lDYJf2V_pLJRygsb7bF_7PK7ZDNOk_IQy6oebr3h822ajdjQcA5f9OFonT1_rLGd&_nc_zt=23&_nc_ht=scontent.ftam2-1.fna&_nc_gid=o-jvHBLZ9TQ40nfaR5WkOw&oh=00_AfLlNRanX-Pt5nMY0pTEM9DcjQsD9QSHhD5R7z2qgWXzvQ&oe=682DD259" alt="Burrito Clásico">
+                    <h4>Burrito Ranchero</h4>
+                    <p>Carne arachera, guacamole, queso gratinado, cebolla caramelizada y nuestra salsa habanera suave</p>
+                    <span class="price">$80.99</span>
+                    <button class="add-to-cart" data-item="Burrito Ranchero" data-price="80.99">Añadir al carrito</button>
+                </div>
+                <div class="menu-item">
+                    <img src="https://scontent.ftam2-1.fna.fbcdn.net/v/t39.30808-6/484555149_981466630838483_8727563740108550411_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeEJZmqj_9LCM78z7Xm3mktsOJf1hldUQww4l_WGV1RDDO6P9MEnol9wj9pywK_ci7HkPT8vVN0xTsP_DyQ3JqZq&_nc_ohc=2zclocaH7EEQ7kNvwECGnqW&_nc_oc=Adm87XS8UsjIVK3r9BIfFpwZVp2kDSLVbGnAgcUIi0dZVBZF1ZzEABEjIDXm85Jo-70ubrjYAuWhlS6_2UZjaV1z&_nc_zt=23&_nc_ht=scontent.ftam2-1.fna&_nc_gid=1NDqg1VV8dcB-GhCiIYZUQ&oh=00_AfK9yjnhnPufeURT_Qa3fhzTyKezVRBtxc6hikiWwXfEwA&oe=682DD9F3" alt="Burrito Picante">
+                    <h4>Burri Babies</h4>
+                    <p>El mismo sabor de los burritos pero en peque</p>
+                    <span class="price">$39.99</span>
+                    <button class="add-to-cart" data-item="Burrito Picante" data-price="39.99">Añadir al carrito</button>
+                </div>
+                <div class="menu-item">
+                    <img src="https://continentegourmet.com.co/wp-content/uploads/2022/02/Diseno-sin-titulo-1.png" alt="Burri Babies">
+                    <h4>Burrito Infernal</h4>
+                    <p>Carne adobada, chile habanero extra, queso y nuestra salsa más picante</p>
+                    <span class="price">$90.99</span>
+                    <button class="add-to-cart" data-item="Burrito Infernal" data-price="90.99">Añadir al carrito</button>
+                </div>
+                <div class="menu-item">
+                    <img src="https://storage.googleapis.com/avena-recipes-v2/2019/10/1571780047769.jpeg" alt="Burrito Vegetariano">
+                    <h4>Burrito Vegetariano</h4>
+                    <p>Verduras asadas, frijoles, arroz, queso y salsa habanera suave</p>
+                    <span class="price">$58.99</span>
+                    <button class="add-to-cart" data-item="Burrito Vegetariano" data-price="58.99">Añadir al carrito</button>
+                </div>
+            </div>
+
+            <h2 style="margin-top: 40px;">Acompañamientos</h2>
+            <div class="menu-items">
+                <div class="menu-item">
+                    <img src="https://scontent.ftam2-1.fna.fbcdn.net/v/t39.30808-6/484071275_981466604171819_4097748582914848867_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeFgP2gEgvoiZQl1WPBIaLgqq2UTAtxHSHKrZRMC3EdIcnc5ILQ7Q2rXx9iI8gVl2ol1PSv4_kzMMhPy18btbDHj&_nc_ohc=qpYUR6ErU74Q7kNvwHYgXG6&_nc_oc=AdmKphYN3AFeGS9FgENinBptJIKxQh4r7u00QMqSeeLUTaWAnfo8jGYwG2hTCd8MJjCpcyFLy3sI05PLoFQJh9XN&_nc_zt=23&_nc_ht=scontent.ftam2-1.fna&_nc_gid=Y8qcflzUESgRVvwHGZc3Kg&oh=00_AfI0JOMnQOeDn60UgNngusmoslSeCFAyRDELu3yFkRkVew&oe=682DDEDD" alt="Nachos">
+                    <h4>Tiras de burro</h4>
+                    <p>4 piezas de pechuga de pollo empanizadas y papas fritas</p>
+                    <span class="price">$69.99</span>
+                    <button class="add-to-cart" data-item="Tiras de burro" data-price="69.99">Añadir al carrito</button>
+                </div>
+                <div class="menu-item">
+                    <img src="https://gran.luchito.com/wp-content/uploads/2024/11/Hero-Homemade-chips-826x400.jpg" alt="Papas">
+                    <h4>Orden de papas fritas</h4>
+                    <p>Papas fritas con catsup y mayonesa</p>
+                    <span class="price">$34.99</span>
+                    <button class="add-to-cart" data-item="Orden de papas fritas" data-price="34.99">Añadir al carrito</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto" style="padding: 30px 0; background-color: #f5f5f5;">
+        <div class="container">
+            <h2 style="text-align: center; color: #c0392b; margin-bottom: 20px;">Contacto</h2>
+            <div style="text-align: center; margin-bottom: 20px;">
+                <p><i class="fas fa-map-marker-alt"></i> Fraccionamiento 18 de marzo, Ciudad Madero, Mexico</p>
+                <p><i class="fas fa-phone"></i> Tel: 833 451 7590</p>
+                <p><i class="fas fa-clock"></i> Abierto de 16:00 PM - 10:00 PM</p>
+            </div>
+            <div style="max-width: 500px; margin: 0 auto;">
+                <form style="display: grid; gap: 10px;">
+                    <input type="text" placeholder="Nombre" style="padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    <input type="email" placeholder="Correo" style="padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    <textarea placeholder="Mensaje" style="padding: 10px; border: 1px solid #ddd; border-radius: 5px; height: 100px;"></textarea>
+                    <button type="submit" class="btn">Enviar Mensaje</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Carrito de compras -->
+    <div class="cart-sidebar">
+        <div class="cart-header">
+            <h3>Tu Pedido</h3>
+            <button class="close-cart">&times;</button>
+        </div>
+        <div class="cart-items">
+            <!-- Los items se agregarán dinámicamente aquí -->
+        </div>
+        <div class="cart-total">
+            Total: <span id="cart-total">$0.00</span>
+        </div>
+        <button class="btn checkout-btn">Realizar Pedido</button>
+    </div>
+    <div class="cart-overlay"></div>
+
+    <button class="cart-button">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count">0</span>
+    </button>
+
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="https://www.facebook.com/coyotealpha84"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.instagram.com/_elburritohabanero_/?fbclid=IwY2xjawKU6UZleHRuA2FlbQIxMABicmlkETFReFJ3TTRtWGFENWdPeDlZAR5YvlXfV5Q3gVPWTBq-Vx3n5RHyldX0SybAGlQ71HESr1OfNGgYjndzdT6jhA_aem_QxlZ34bksCa8sR3ljXollw#"><i class="fab fa-instagram"></i></a>
+                
+            </div>
+            <p>&copy; 2025 El burrito habanero. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Variables del carrito
+            const cartButton = document.querySelector('.cart-button');
+            const cartSidebar = document.querySelector('.cart-sidebar');
+            const cartOverlay = document.querySelector('.cart-overlay');
+            const closeCart = document.querySelector('.close-cart');
+            const cartItemsContainer = document.querySelector('.cart-items');
+            const cartTotal = document.querySelector('#cart-total');
+            const cartCount = document.querySelector('.cart-count');
+            const checkoutBtn = document.querySelector('.checkout-btn');
+            
+            let cart = [];
+
+            // Abrir/cerrar carrito
+            cartButton.addEventListener('click', toggleCart);
+            closeCart.addEventListener('click', toggleCart);
+            cartOverlay.addEventListener('click', toggleCart);
+
+            function toggleCart() {
+                cartSidebar.classList.toggle('active');
+                cartOverlay.classList.toggle('active');
+            }
+
+            // Añadir al carrito
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', function() {
+                    const item = this.getAttribute('data-item');
+                    const price = parseFloat(this.getAttribute('data-price'));
+                    
+                    // Verificar si el item ya está en el carrito
+                    const existingItem = cart.find(cartItem => cartItem.item === item);
+                    
+                    if (existingItem) {
+                        existingItem.quantity += 1;
+                    } else {
+                        cart.push({
+                            item,
+                            price,
+                            quantity: 1
+                        });
+                    }
+                    
+                    updateCart();
+                    animateCartButton();
+                });
+            });
+
+            // Actualizar carrito
+            function updateCart() {
+                cartItemsContainer.innerHTML = '';
+                let total = 0;
+                let count = 0;
+                
+                cart.forEach((cartItem, index) => {
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'cart-item';
+                    itemElement.innerHTML = `
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${cartItem.item}</div>
+                            <div class="cart-item-price">$${(cartItem.price * cartItem.quantity).toFixed(2)}</div>
+                        </div>
+                        <button class="cart-item-remove" data-index="${index}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    `;
+                    cartItemsContainer.appendChild(itemElement);
+                    
+                    total += cartItem.price * cartItem.quantity;
+                    count += cartItem.quantity;
+                });
+                
+                cartTotal.textContent = `$${total.toFixed(2)}`;
+                cartCount.textContent = count;
+                
+                // Eventos para eliminar items
+                document.querySelectorAll('.cart-item-remove').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const index = this.getAttribute('data-index');
+                        cart.splice(index, 1);
+                        updateCart();
+                    });
+                });
+            }
+
+            // Animación del botón del carrito
+            function animateCartButton() {
+                cartButton.style.transform = 'scale(1.2)';
+                setTimeout(() => {
+                    cartButton.style.transform = 'scale(1)';
+                }, 300);
+            }
+
+            // Realizar pedido
+            checkoutBtn.addEventListener('click', function() {
+                if (cart.length === 0) {
+                    alert('Tu carrito está vacío');
+                    return;
+                }
+                
+                let orderDetails = 'Resumen de tu pedido:\n\n';
+                cart.forEach(item => {
+                    orderDetails += `${item.item} x ${item.quantity} - $${(item.price * item.quantity).toFixed(2)}\n`;
+                });
+                
+                orderDetails += `\nTotal: $${cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2)}`;
+                orderDetails += '\n\n¿Deseas confirmar tu pedido?';
+                
+                if (confirm(orderDetails)) {
+                    alert('¡Pedido confirmado! Gracias por tu compra.');
+                    cart = [];
+                    updateCart();
+                    toggleCart();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
